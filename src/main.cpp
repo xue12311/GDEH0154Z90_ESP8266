@@ -160,40 +160,56 @@ void LED_run(void)
   delay(500);
   }
 
-  /**
-   * 引脚设置
-   */
 void setup() {
-   pinMode(BUSY_Pin, INPUT); 
-   pinMode(RES_Pin, OUTPUT);  
-   pinMode(DC_Pin, OUTPUT);    
-   pinMode(CS_Pin, OUTPUT);    
-   pinMode(SCK_Pin, OUTPUT);    
+    //设置 引脚 BUSY_Pin ( D0 ) 为 输入模式
+   pinMode(BUSY_Pin, INPUT);
+   //设置 引脚 RES_Pin ( D1 ) 为 输出模式
+   pinMode(RES_Pin, OUTPUT);
+   //设置 引脚 DC_Pin ( D2 ) 为 输出模式
+   pinMode(DC_Pin, OUTPUT);
+   //设置 引脚 CS_Pin ( D5 ) 为 输出模式
+   pinMode(CS_Pin, OUTPUT);
+   //设置 引脚 SCK_Pin ( D6 ) 为 输出模式
+   pinMode(SCK_Pin, OUTPUT);
+   //设置 引脚 SDI_Pin ( D7 ) 为 输出模式
    pinMode(SDI_Pin, OUTPUT);    
 }
 
-//Tips//
-/*When the electronic paper is refreshed in full screen, the picture flicker is a normal phenomenon, and the main function is to clear the display afterimage in the previous picture.
-  When the local refresh is performed, the screen does not flash.*/
-/*When you need to transplant the driver, you only need to change the corresponding IO. The BUSY pin is the input mode and the others are the output mode. */
-  
+/**
+ * 电子纸全屏刷新时，画面闪烁是正常现象，主要作用是清除上一张画面的显示残影。
+ * 执行本地刷新时，屏幕不闪烁。
+ **/
+/*当需要移植驱动时，只需要更改相应的IO即可。
+ * BUSY 引脚为输入模式，其他为输出模式。
+ **/
+
 void loop() {
-    //Full screen refresh
-    EPD_HW_Init(); //Electronic paper initialization
-    EPD_WhiteScreen_ALL(gImage_BW,gImage_R); //Refresh the picture in full screen
-    EPD_DeepSleep(); //Enter deep sleep,Sleep instruction is necessary, please do not delete!!! 
-    delay(2000);   
+    //电子纸初始化
+    EPD_HW_Init();
+    //全屏刷新图片
+    EPD_WhiteScreen_ALL(gImage_BW,gImage_R);
+    //进入深度睡眠，需要睡眠指令，请勿删除！！！
+    EPD_DeepSleep();
+    //休眠 2秒
+    delay(2000);
     
-    //Clean
-    EPD_HW_Init(); //Electronic paper initialization
+    //清除屏幕
+    //电子纸初始化
+    EPD_HW_Init();
     EPD_WhiteScreen_ALL_Clean();
-    EPD_DeepSleep(); //Enter deep sleep,Sleep instruction is necessary, please do not delete!!!
-    delay(2000); 
-    while(1) 
-    {
-     Sys_run();//System run
-     LED_run();//Breathing lamp
-    }
+    //进入深度睡眠，需要睡眠指令，请勿删除！！！
+    EPD_DeepSleep();
+    //休眠 2秒
+    delay(2000);
+
+    //无尽循环
+//    while(1)
+//    {
+//     //系统运行
+//     Sys_run();
+//     //LED灯 闪烁
+//     LED_run();
+//    }
 }
 
 
@@ -287,6 +303,9 @@ void Epaper_Write_Data(unsigned char command)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 //SSD1680
+/**
+ * 电子纸初始化
+ */
 void EPD_HW_Init(void)
 {
   EPD_W21_RST_0;  // Module reset      
@@ -346,7 +365,9 @@ void EPD_WhiteScreen_ALL(const unsigned char *BW_datas,const unsigned char *R_da
    }
    EPD_Update();   
 }
-
+/**
+ * 清除屏幕
+ */
 void EPD_WhiteScreen_ALL_Clean(void)
 {
    unsigned int i;  
@@ -372,11 +393,15 @@ void EPD_Update(void)
   Epaper_READBUSY();   
 
 }
-
+/**
+ * 进入深度睡眠
+ */
 void EPD_DeepSleep(void)
 {  
-  Epaper_Write_Command(0x10); //enter deep sleep
-  Epaper_Write_Data(0x01); 
+  //进入深度睡眠
+  Epaper_Write_Command(0x10);
+  Epaper_Write_Data(0x01);
+  //休眠 0.1秒
   delay(100);
 }
 void Epaper_READBUSY(void)
