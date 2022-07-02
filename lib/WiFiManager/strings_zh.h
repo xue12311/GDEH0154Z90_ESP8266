@@ -77,7 +77,7 @@ const char HTTP_UPDATEBTN[]        PROGMEM = "<br/><form action='/update' method
 const char HTTP_BACKBTN[]          PROGMEM = "<hr><br/><form action='/' method='get'><button>返回</button></form>";
 
 const char HTTP_STATUS_ON[]        PROGMEM = "<div class='msg S'><strong>WiFi连接上了</strong> to {v}<br/><em><small>连接 WiFi IP 是 {i}</small></em></div>";
-const char HTTP_STATUS_OFF[]       PROGMEM = "<div class='msg {c}'><strong>连接失败了,请重试!</strong> to {v}{r}</div>"; // {c=class} {v=ssid} {r=status_off}
+const char HTTP_STATUS_OFF[]       PROGMEM = "<div class='msg {c}'>{v}<strong>连接失败了,请重试 ! </strong> {r}</div>"; // {c=class} {v=ssid} {r=status_off}
 const char HTTP_STATUS_OFFPW[]     PROGMEM = "<br/>认证失败"; // STATION_WRONG_PASSWORD,  no eps32
 const char HTTP_STATUS_OFFNOAP[]   PROGMEM = "<br/>这个wifi没有找到";   // WL_NO_SSID_AVAIL
 const char HTTP_STATUS_OFFFAIL[]   PROGMEM = "<br/>不能链接到这个网络"; // WL_CONNECT_FAILED
