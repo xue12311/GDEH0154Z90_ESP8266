@@ -141,6 +141,15 @@ void EPD_WhiteScreen_ALL(const unsigned char *BW_datas,const unsigned char *R_da
  */
 void EPD_WhiteScreen_ALL_Clean(void);
 
+/**
+ * 电子纸 写入
+ */
+void setImageEPaperDisplay();
+/**
+ * 电子纸 清空
+ */
+void setCleanEPaperDisplay();
+
 void Sys_run(void)
 {
    //Feed dog to prevent system reset
@@ -187,8 +196,12 @@ void initEPaperDisplay() {
  **/
 
 void testImageEPaperDisplay(){
-  setImageEPaperDisplay();
   setCleanEPaperDisplay();
+    //休眠 2秒
+    delay(2000);
+  setImageEPaperDisplay();
+    //休眠 2秒
+    delay(2000);
 }
 
 void setImageEPaperDisplay(){
@@ -198,8 +211,6 @@ void setImageEPaperDisplay(){
     EPD_WhiteScreen_ALL(gImage_R,gImage_BW);
     //进入深度睡眠，需要睡眠指令，请勿删除！！！
     EPD_DeepSleep();
-    //休眠 2秒
-    delay(2000);
 }
 
 void setCleanEPaperDisplay() {
@@ -209,8 +220,6 @@ void setCleanEPaperDisplay() {
     EPD_WhiteScreen_ALL_Clean();
     //进入深度睡眠，需要睡眠指令，请勿删除！！！
     EPD_DeepSleep();
-    //休眠 2秒
-    delay(2000);
     
     //无尽循环
   //  while(1)
